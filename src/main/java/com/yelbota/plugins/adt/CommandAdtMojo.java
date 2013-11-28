@@ -37,6 +37,12 @@ public class CommandAdtMojo extends UnpackAdtMojo {
     @Parameter
     protected String arguments;
 
+	/**
+	 * Additional jvm arguments
+	 */
+	@Parameter
+	protected String jvmArg;
+
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException
     {
@@ -47,6 +53,11 @@ public class CommandAdtMojo extends UnpackAdtMojo {
         File adtFile = FileUtils.resolveFile(sdkDirectory, "lib/adt.jar");
 
         finalArgs.add("java");
+
+		if (jvmArg != null)
+			for (String s: StringUtils.split(jvmArg, " "))
+				finalArgs.add(s);
+
         finalArgs.add("-jar");
         finalArgs.add(adtFile.getAbsolutePath());
 
